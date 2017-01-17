@@ -7,29 +7,12 @@ CampaignsNewController = Ember.Controller.extend
   locationId: Ember.computed.alias('applicationController.locationId')
   session: Ember.inject.service()
 
-  fetchTargetsCount: Ember.observer 'model.targets_filters', 'locationId', 'model.kind', ->
-    locationId = @get('locationId')
+  campaigns: Ember.computed 'applicationController.locationId', ->
+    locationId = @get('applicationController.locationId')
     return unless locationId
 
-    @get('session').authorize 'authorizer:devise', (headerName, headerValue) =>
-      headers = {}
-      headers[headerName] = headerValue
-
-      Ember.$.ajax
-        url: "#{ENV.SERVER_URL}/api/#{ENV.API_VERSION}/campaigns/targets/#{locationId}"
-        headers: headers
-      .then (response) =>
-        @set 'targets', response
-
-  targetsCount: Ember.computed 'model.targets_filters', 'targets', ->
-    filter = @get('model.targets_filters.firstObject')
-    targets = @get 'targets'
-    return unless targets
-
-    {
-      actual: @get('targets')[@get('model.kind')][filter].length,
-      total: @get('targets')[@get('model.kind')]['all'].length
-    }
+    @store.query 'campaign',
+      location_id: locationId
 
   symbolsLeft: Ember.computed 'model.message.length', ->
     contentLength = @get('model.message.length')
@@ -38,6 +21,12 @@ CampaignsNewController = Ember.Controller.extend
     else
       160
 
+  baseFilter: Ember.computed 'model', ->
+    @store.createRecord 'filter',
+      all: true
+
+  newFilterChecked: true
+
   actions:
     create: ->
       newCampaign = @get('model')
@@ -45,8 +34,22 @@ CampaignsNewController = Ember.Controller.extend
       if kind == 'email'
         newCampaign.set 'message', CKEDITOR.instances['campaign-content'].getData()
       newCampaign.set 'location', @store.peekRecord('location', @get('locationId'))
-      newCampaign.save().then =>
-        @transitionToRoute('campaigns.index')
+
+      setFiltersAndSave = =>
+        filters = []
+        $('.filter:checked').each (i, checkbox) ->
+          filters.push $(checkbox).attr('name')
+        newCampaign.set('filters', filters)
+        newCampaign.save().then =>
+          @transitionToRoute('campaigns.index')
+
+      if @get('newFilterChecked')
+        baseFilter = @get('baseFilter')
+        baseFilter.save().then =>
+          newCampaign.set 'baseFilter', baseFilter
+          setFiltersAndSave()
+      else
+        setFiltersAndSave()
 
       return false
 
@@ -60,8 +63,5 @@ CampaignsNewController = Ember.Controller.extend
         CKEDITOR.replace 'campaign-content'
       else if newKind == 'sms' && $('#cke_campaign-content').length > 0
         CKEDITOR.instances['campaign-content'].destroy()
-
-    selectTargetsFilter: (e) ->
-      @set 'model.targets_filters', [e]
 
 `export default CampaignsNewController;`

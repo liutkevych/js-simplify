@@ -5,13 +5,7 @@ CampaignsNewRoute = Ember.Route.extend AuthenticatedRouteMixin,
   session: Ember.inject.service()
 
   model: ->
-    new Ember.RSVP.Promise (resolve, reject) =>
-      @store.findAll('location').then (result) =>
-        resolve @store.createRecord('campaign',
-          location: result.get('firstObject')
-          kind: 'sms',
-          targets_filters: ['all']
-        )
+    @store.createRecord 'campaign'
 
   deactivate: ->
     @controllerFor('campaigns.new').get('model').deleteRecord()

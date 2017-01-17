@@ -8,11 +8,13 @@ CampaignModel = DS.Model.extend
   kind:                     DS.attr()
   approved:                 DS.attr()
   targets_count:            DS.attr()
-  targets_filters:          DS.attr()
   failures_count:           DS.attr()
   returned_visitors_count:  DS.attr()
   locationId:               DS.attr()
   created:                  DS.attr()
+
+  filters:                  DS.attr()
+  baseFilter:               DS.belongsTo('filter')
 
   createdAt: Ember.computed 'created', ->
     moment(@get('created')).format('MMM Do YYYY')

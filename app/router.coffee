@@ -17,5 +17,7 @@ Router.map ->
     @route 'new'
     @route 'edit',
       path: '/:id/edit'
+    @route 'targets',
+      path: '/:id/targets'
 
 `export default Router;`
