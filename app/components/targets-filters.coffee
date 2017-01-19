@@ -21,4 +21,8 @@ TargetsFiltersComponent = Ember.Component.extend
   ageDisabled: Ember.computed 'ageChecked', ->
     !@get('ageChecked')
 
+  checkboxesFixer: Ember.observer 'startDateChecked', 'endDateChecked', 'frequencyChecked', 'geographyChecked', 'genderChecked', 'ageChecked', ->
+    newValue = !(@get('startDateChecked') || @get('endDateChecked') || @get('frequencyChecked') || @get('geographyChecked') || @get('genderChecked') || @get('ageChecked'))
+    @set('filter.all', newValue)
+
 `export default TargetsFiltersComponent`

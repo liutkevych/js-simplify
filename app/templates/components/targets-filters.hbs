@@ -13,117 +13,120 @@
     {{input type="checkbox" checked=newFilterChecked}}
     New filter
   </label>
+  {{x}}
 </section>
 {{/if}}
-<label class="all">
-  {{input
-    type="checkbox"
-    checked=filter.all
-    disabled=allDisabled
-  }}
-  All
-</label>
-<section class="date-range row">
-  <div class="column col-xs-6 start">
-    <label>
+<div class="filters-view">
+  <label class="all">
+    {{input
+      type="checkbox"
+      checked=filter.all
+      disabled=true
+    }}
+    All
+  </label>
+  <section class="date-range row">
+    <div class="column col-xs-6 start">
+      <label>
+        {{input
+          type="checkbox"
+          checked=startDateChecked
+        }}
+        Start
+      </label>
+      {{bootstrap-datepicker
+        disabled=startDateDisabled
+        language="no"
+        value=filter.dateStart
+        autoclose=true
+        orientation="bottom"
+        placeholder="mm/dd/yyyy"
+      }}
+    </div>
+    <div class="column col-xs-6 end">
+      <label>
+        {{input type="checkbox" checked=endDateChecked}}
+        End
+      </label>
+      {{bootstrap-datepicker
+        disabled=endDateDisabled
+        language="no"
+        value=filter.dateEnd
+        autoclose=true
+        orientation="bottom"
+        placeholder="mm/dd/yyyy"
+      }}
+    </div>
+  </section>
+  <div class="row">
+    <section class="frequency column col-xs-6">
+      <label>
+        {{input type="checkbox" checked=frequencyChecked}}
+        Frequency
+      </label>
       {{input
-        type="checkbox"
-        checked=startDateChecked
+        value=filter.frequencyFrom
+        disabled=frequencyDisabled
       }}
-      Start
-    </label>
-    {{bootstrap-datepicker
-      disabled=startDateDisabled
-      language="no"
-      value=filter.dateStart
-      autoclose=true
-      orientation="bottom"
-      placeholder="mm/dd/yyyy"
-    }}
-  </div>
-  <div class="column col-xs-6 end">
-    <label>
-      {{input type="checkbox" checked=endDateChecked}}
-      End
-    </label>
-    {{bootstrap-datepicker
-      disabled=endDateDisabled
-      language="no"
-      value=filter.dateEnd
-      autoclose=true
-      orientation="bottom"
-      placeholder="mm/dd/yyyy"
-    }}
-  </div>
-</section>
-<div class="row">
-  <section class="frequency column col-xs-6">
-    <label>
-      {{input type="checkbox" checked=frequencyChecked}}
-      Frequency
-    </label>
-    {{input
-      value=filter.frequencyFrom
-      disabled=frequencyDisabled
-    }}
-    to
-    {{input
-      value=filter.frequencyTo
-      disabled=frequencyDisabled
-    }}
-  </section>
-  <section class="geography column col-xs-6">
-    <label>
+      to
       {{input
-        type="checkbox"
-        checked=geographyChecked
+        value=filter.frequencyTo
+        disabled=frequencyDisabled
       }}
-      Geography
-    </label>
-    <span class="radius">{{radius}} km</span>
-    {{ui-slider
-      value=filter.geography
-      max=100
-      disabled=geographyDisabled
-    }}
-  </section>
-</div>
-<div class="row">
-  <section class="column col-xs-6 gender">
-    <label>
-      {{input type="checkbox" checked=genderChecked}}
-      Gender
-    </label>
-    <label>
-      {{radio-button
-        value="male"
-        groupValue=filter.gender
-        disabled=genderDisabled
+    </section>
+    <section class="geography column col-xs-6">
+      <label>
+        {{input
+          type="checkbox"
+          checked=geographyChecked
+        }}
+        Geography
+      </label>
+      <span class="radius">{{radius}} km</span>
+      {{ui-slider
+        value=filter.geography
+        max=100
+        disabled=geographyDisabled
       }}
-      Male
-    </label>
-    <label>
-      {{radio-button
-        value="female"
-        groupValue=filter.gender
-        disabled=genderDisabled
+    </section>
+  </div>
+  <div class="row">
+    <section class="column col-xs-6 gender">
+      <label>
+        {{input type="checkbox" checked=genderChecked}}
+        Gender
+      </label>
+      <label>
+        {{radio-button
+          value="male"
+          groupValue=filter.gender
+          disabled=genderDisabled
+        }}
+        Male
+      </label>
+      <label>
+        {{radio-button
+          value="female"
+          groupValue=filter.gender
+          disabled=genderDisabled
+        }}
+        Female
+      </label>
+    </section>
+    <section class="age column col-xs-6">
+      <label>
+        {{input type="checkbox" checked=ageChecked}}
+        Age
+      </label>
+      {{input
+        value=filter.ageFrom
+        disabled=ageDisabled
       }}
-      Female
-    </label>
-  </section>
-  <section class="age column col-xs-6">
-    <label>
-      {{input type="checkbox" checked=ageChecked}}
-      Age
-    </label>
-    {{input
-      value=filter.ageFrom
-      disabled=ageDisabled
-    }}
-    to
-    {{input
-      value=filter.ageTo
-      disabled=ageDisabled
-    }}
-  </section>
+      to
+      {{input
+        value=filter.ageTo
+        disabled=ageDisabled
+      }}
+    </section>
+  </div>
 </div>

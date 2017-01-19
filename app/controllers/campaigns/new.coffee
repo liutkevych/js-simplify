@@ -8,6 +8,13 @@ CampaignsNewController = Ember.Controller.extend
   session: Ember.inject.service()
   newFilterChecked: true
 
+  toggleFiltersView: Ember.observer 'newFilterChecked', ->
+    show = @get('newFilterChecked')
+    if show
+      $('.filters-view').slideDown(128)
+    else
+      $('.filters-view').slideUp(128)
+
   campaigns: Ember.computed 'applicationController.locationId', ->
     locationId = @get('applicationController.locationId')
     return unless locationId
@@ -25,8 +32,6 @@ CampaignsNewController = Ember.Controller.extend
   baseFilter: Ember.computed 'model', ->
     @store.createRecord 'filter',
       all: true
-
-  newFilterChecked: true
 
   actions:
     create: ->
