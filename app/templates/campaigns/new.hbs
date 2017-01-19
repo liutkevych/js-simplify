@@ -7,6 +7,14 @@
   </fieldset>
 
   {{partial 'campaigns/form'}}
+
+  <div class="row delay">
+    <label>
+      Send for new visitors with delay:
+      {{input value=model.onVisitDelay}}<span> minutes</span>
+    </label>
+  </div>
+
   <section class="row">
     <h2>Targets</h2>
     {{targets-filters

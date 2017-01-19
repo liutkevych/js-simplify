@@ -12,6 +12,7 @@ CampaignModel = DS.Model.extend
   returned_visitors_count:  DS.attr()
   locationId:               DS.attr()
   created:                  DS.attr()
+  onVisitDelay:             DS.attr()
 
   filters:                  DS.attr()
   baseFilter:               DS.belongsTo('filter')

@@ -11,6 +11,18 @@
     max-width: 80%;
     height: 60%;
   }
+
+  .delay {
+    label {
+      font-weight: normal;
+    }
+
+    input {
+      width: 50px;
+      text-align: center;
+      color: $color-2;
+    }
+  }
 }
 
 .campaigns {

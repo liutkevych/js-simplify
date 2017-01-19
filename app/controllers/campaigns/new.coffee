@@ -6,6 +6,7 @@ CampaignsNewController = Ember.Controller.extend
   applicationController: Ember.inject.controller('application')
   locationId: Ember.computed.alias('applicationController.locationId')
   session: Ember.inject.service()
+  newFilterChecked: true
 
   campaigns: Ember.computed 'applicationController.locationId', ->
     locationId = @get('applicationController.locationId')
