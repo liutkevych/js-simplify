@@ -33,6 +33,7 @@
       All
     </label>
     <section class="date-range row">
+      <h4>Specific period</h4>
       <div class="column col-xs-6 start">
         <label>
           {{input
@@ -40,7 +41,7 @@
             checked=startDateChecked
             disabled=filterDisabled
           }}
-          Start
+          From
         </label>
         {{bootstrap-datepicker
           disabled=startDateDisabled
@@ -58,7 +59,7 @@
             checked=endDateChecked
             disabled=filterDisabled
           }}
-          End
+          To
         </label>
         {{bootstrap-datepicker
           disabled=endDateDisabled
@@ -78,13 +79,14 @@
             checked=frequencyChecked
             disabled=filterDisabled
           }}
-          Frequency
+          Number of visits
         </label>
+        From
         {{input
           value=filter.frequencyFrom
           disabled=frequencyDisabled
         }}
-        to
+        To
         {{input
           value=filter.frequencyTo
           disabled=frequencyDisabled
@@ -143,11 +145,12 @@
           }}
           Age
         </label>
+        From
         {{input
           value=filter.ageFrom
           disabled=ageDisabled
         }}
-        to
+        To
         {{input
           value=filter.ageTo
           disabled=ageDisabled

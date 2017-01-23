@@ -36,9 +36,14 @@ CampaignsNewController = Ember.Controller.extend
         newCampaign.set 'message', CKEDITOR.instances['campaign-content'].getData()
       newCampaign.set 'location', @store.peekRecord('location', @get('locationId'))
 
-      filter = @get('newFilter')
-      filter.save().then =>
-        newCampaign.set 'filter', filter
+      filterType = @get 'filterType'
+      if filterType != 'previous'
+        filter = @get('newFilter')
+        filter.save().then =>
+          newCampaign.set 'filter', filter
+          newCampaign.save().then =>
+            @transitionToRoute('campaigns.index')
+      else
         newCampaign.save().then =>
           @transitionToRoute('campaigns.index')
 
