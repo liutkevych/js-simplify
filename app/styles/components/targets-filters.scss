@@ -6,10 +6,6 @@
   text-align: center;
   font-size: 18px;
 
-  .previous {
-    text-align: left;
-  }
-
   .all {
     margin: 10px 0;
   }
@@ -21,6 +17,10 @@
       width: 300px;
       padding: 5px;
     }
+  }
+
+  select {
+    font-weight: normal;
   }
 
   .row {

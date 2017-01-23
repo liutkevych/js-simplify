@@ -1,132 +1,170 @@
-{{#if previousCampaigns}}
-<section class="row previous">
-  <h4>Include previous campaigns filters</h4>
-  {{#each previousCampaigns as |campaign|}}
-    <label class="column col-xs-3">
-      {{input type="checkbox" class="filter" name=campaign.id}}
-      {{campaign.title}}
-    </label>
-  {{/each}}
-</section>
-<section class="row">
+<section class="row filter-type">
   <label>
-    {{input type="checkbox" checked=newFilterChecked}}
-    New filter
+    Send your campaign to:
+    <select onchange={{action 'selectFilterType' value="target.value"}}>
+      <option value="all">
+        All visitors
+      </option>
+      <option value="top">
+        Top visitors
+      </option>
+      <option value="new">
+        New visitors
+      </option>
+      {{#if previousCampaigns}}
+        <option value="previous">
+          Previous campaign's audience
+        </option>
+      {{/if}}
+      <option value="custom">
+        Custom filter
+      </option>
+    </select>
   </label>
-  {{x}}
 </section>
+{{#if showCustomFilter}}
+  <div class="filters-view">
+    <label class="all">
+      {{input
+        type="checkbox"
+        checked=filter.all
+        disabled=true
+      }}
+      All
+    </label>
+    <section class="date-range row">
+      <div class="column col-xs-6 start">
+        <label>
+          {{input
+            type="checkbox"
+            checked=startDateChecked
+            disabled=filterDisabled
+          }}
+          Start
+        </label>
+        {{bootstrap-datepicker
+          disabled=startDateDisabled
+          language="no"
+          value=filter.dateStart
+          autoclose=true
+          orientation="bottom"
+          placeholder="mm/dd/yyyy"
+        }}
+      </div>
+      <div class="column col-xs-6 end">
+        <label>
+          {{input
+            type="checkbox"
+            checked=endDateChecked
+            disabled=filterDisabled
+          }}
+          End
+        </label>
+        {{bootstrap-datepicker
+          disabled=endDateDisabled
+          language="no"
+          value=filter.dateEnd
+          autoclose=true
+          orientation="bottom"
+          placeholder="mm/dd/yyyy"
+        }}
+      </div>
+    </section>
+    <div class="row">
+      <section class="frequency column col-xs-6">
+        <label>
+          {{input
+            type="checkbox"
+            checked=frequencyChecked
+            disabled=filterDisabled
+          }}
+          Frequency
+        </label>
+        {{input
+          value=filter.frequencyFrom
+          disabled=frequencyDisabled
+        }}
+        to
+        {{input
+          value=filter.frequencyTo
+          disabled=frequencyDisabled
+        }}
+      </section>
+      <section class="geography column col-xs-6">
+        <label>
+          {{input
+            type="checkbox"
+            checked=geographyChecked
+            disabled=filterDisabled
+          }}
+          Geography
+        </label>
+        <span class="radius">{{radius}} km</span>
+        {{ui-slider
+          value=filter.geography
+          max=100
+          disabled=geographyDisabled
+        }}
+      </section>
+    </div>
+    <div class="row">
+      <section class="column col-xs-6 gender">
+        <label>
+          {{input
+            type="checkbox"
+            checked=genderChecked
+            disabled=filterDisabled
+          }}
+          Gender
+        </label>
+        <label>
+          {{radio-button
+            value="male"
+            groupValue=filter.gender
+            disabled=genderDisabled
+          }}
+          Male
+        </label>
+        <label>
+          {{radio-button
+            value="female"
+            groupValue=filter.gender
+            disabled=genderDisabled
+          }}
+          Female
+        </label>
+      </section>
+      <section class="age column col-xs-6">
+        <label>
+          {{input
+            type="checkbox"
+            checked=ageChecked
+            disabled=filterDisabled
+          }}
+          Age
+        </label>
+        {{input
+          value=filter.ageFrom
+          disabled=ageDisabled
+        }}
+        to
+        {{input
+          value=filter.ageTo
+          disabled=ageDisabled
+        }}
+      </section>
+    </div>
+  </div>
 {{/if}}
-<div class="filters-view">
-  <label class="all">
-    {{input
-      type="checkbox"
-      checked=filter.all
-      disabled=true
-    }}
-    All
+{{#if showPreviousCampaignsDropdown}}
+  <label>
+    Campaign to reuse:
+    <select onchange={{action 'selectPreviousCampaign' value="target.value"}}>
+      {{#each previousCampaigns as |campaign|}}
+        <option value={{campaign.id}} selected={{eq filter.previous campaign.id}}>
+          {{campaign.title}}
+        </option>
+      {{/each}}
+    </select>
   </label>
-  <section class="date-range row">
-    <div class="column col-xs-6 start">
-      <label>
-        {{input
-          type="checkbox"
-          checked=startDateChecked
-        }}
-        Start
-      </label>
-      {{bootstrap-datepicker
-        disabled=startDateDisabled
-        language="no"
-        value=filter.dateStart
-        autoclose=true
-        orientation="bottom"
-        placeholder="mm/dd/yyyy"
-      }}
-    </div>
-    <div class="column col-xs-6 end">
-      <label>
-        {{input type="checkbox" checked=endDateChecked}}
-        End
-      </label>
-      {{bootstrap-datepicker
-        disabled=endDateDisabled
-        language="no"
-        value=filter.dateEnd
-        autoclose=true
-        orientation="bottom"
-        placeholder="mm/dd/yyyy"
-      }}
-    </div>
-  </section>
-  <div class="row">
-    <section class="frequency column col-xs-6">
-      <label>
-        {{input type="checkbox" checked=frequencyChecked}}
-        Frequency
-      </label>
-      {{input
-        value=filter.frequencyFrom
-        disabled=frequencyDisabled
-      }}
-      to
-      {{input
-        value=filter.frequencyTo
-        disabled=frequencyDisabled
-      }}
-    </section>
-    <section class="geography column col-xs-6">
-      <label>
-        {{input
-          type="checkbox"
-          checked=geographyChecked
-        }}
-        Geography
-      </label>
-      <span class="radius">{{radius}} km</span>
-      {{ui-slider
-        value=filter.geography
-        max=100
-        disabled=geographyDisabled
-      }}
-    </section>
-  </div>
-  <div class="row">
-    <section class="column col-xs-6 gender">
-      <label>
-        {{input type="checkbox" checked=genderChecked}}
-        Gender
-      </label>
-      <label>
-        {{radio-button
-          value="male"
-          groupValue=filter.gender
-          disabled=genderDisabled
-        }}
-        Male
-      </label>
-      <label>
-        {{radio-button
-          value="female"
-          groupValue=filter.gender
-          disabled=genderDisabled
-        }}
-        Female
-      </label>
-    </section>
-    <section class="age column col-xs-6">
-      <label>
-        {{input type="checkbox" checked=ageChecked}}
-        Age
-      </label>
-      {{input
-        value=filter.ageFrom
-        disabled=ageDisabled
-      }}
-      to
-      {{input
-        value=filter.ageTo
-        disabled=ageDisabled
-      }}
-    </section>
-  </div>
-</div>
+{{/if}}

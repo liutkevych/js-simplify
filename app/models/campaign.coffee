@@ -13,9 +13,9 @@ CampaignModel = DS.Model.extend
   locationId:               DS.attr()
   created:                  DS.attr()
   onVisitDelay:             DS.attr()
+  previous:                 DS.attr()
 
-  filters:                  DS.attr()
-  baseFilter:               DS.belongsTo('filter')
+  filter:                   DS.belongsTo('filter')
 
   createdAt: Ember.computed 'created', ->
     moment(@get('created')).format('MMM Do YYYY')

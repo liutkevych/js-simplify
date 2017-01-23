@@ -5,7 +5,8 @@ CampaignsNewRoute = Ember.Route.extend AuthenticatedRouteMixin,
   session: Ember.inject.service()
 
   model: ->
-    @store.createRecord 'campaign'
+    @store.createRecord 'campaign',
+      kind: 'sms'
 
   deactivate: ->
     @controllerFor('campaigns.new').get('model').deleteRecord()

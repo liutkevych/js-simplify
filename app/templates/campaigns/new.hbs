@@ -8,21 +8,24 @@
 
   {{partial 'campaigns/form'}}
 
-  <div class="row delay">
-    <label>
-      Send for new visitors with delay:
-      {{input value=model.onVisitDelay}}<span> minutes</span>
-    </label>
-  </div>
+  {{#if showNewUi}}
+    {{#if showDelaySection}}
+      <div class="row delay">
+        <label>
+          Send for new visitors with delay:
+          {{input value=model.onVisitDelay}}<span> minutes</span>
+        </label>
+      </div>
+    {{/if}}
 
-  <section class="row">
-    <h2>Targets</h2>
-    {{targets-filters
-      previousCampaigns=campaigns
-      filter=baseFilter
-      newFilterChecked=newFilterChecked
-    }}
+    <section class="row">
+      <h2>Define Your audience</h2>
+      {{targets-filters
+        previousCampaigns=campaigns
+        filter=newFilter
+      }}
 
-  </section>
+    </section>
+  {{/if}}
   {{input type="submit" class="btn btn-success" value="Create"}}
 </form>

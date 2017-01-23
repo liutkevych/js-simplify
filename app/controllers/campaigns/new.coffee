@@ -6,14 +6,9 @@ CampaignsNewController = Ember.Controller.extend
   applicationController: Ember.inject.controller('application')
   locationId: Ember.computed.alias('applicationController.locationId')
   session: Ember.inject.service()
-  newFilterChecked: true
 
-  toggleFiltersView: Ember.observer 'newFilterChecked', ->
-    show = @get('newFilterChecked')
-    if show
-      $('.filters-view').slideDown(128)
-    else
-      $('.filters-view').slideUp(128)
+  showNewUi: Ember.computed 'applicationController.location.id', ->
+    @get('applicationController.location.ui')
 
   campaigns: Ember.computed 'applicationController.locationId', ->
     locationId = @get('applicationController.locationId')
@@ -29,7 +24,7 @@ CampaignsNewController = Ember.Controller.extend
     else
       160
 
-  baseFilter: Ember.computed 'model', ->
+  newFilter: Ember.computed 'model.id', ->
     @store.createRecord 'filter',
       all: true
 
@@ -41,21 +36,11 @@ CampaignsNewController = Ember.Controller.extend
         newCampaign.set 'message', CKEDITOR.instances['campaign-content'].getData()
       newCampaign.set 'location', @store.peekRecord('location', @get('locationId'))
 
-      setFiltersAndSave = =>
-        filters = []
-        $('.filter:checked').each (i, checkbox) ->
-          filters.push $(checkbox).attr('name')
-        newCampaign.set('filters', filters)
+      filter = @get('newFilter')
+      filter.save().then =>
+        newCampaign.set 'filter', filter
         newCampaign.save().then =>
           @transitionToRoute('campaigns.index')
-
-      if @get('newFilterChecked')
-        baseFilter = @get('baseFilter')
-        baseFilter.save().then =>
-          newCampaign.set 'baseFilter', baseFilter
-          setFiltersAndSave()
-      else
-        setFiltersAndSave()
 
       return false
 
